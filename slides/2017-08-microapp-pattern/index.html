@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web Development with the Microapplication Pattern</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+      body { font-family: 'Droid Serif'; }
+      a, a:hover, a:visited {
+        color: grey;
+      }
+      h1, h2, h3 {
+        color: #c60;
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      h1 {
+        color: #c60;
+      }
+      h2, h3, h4, h5 {
+        color: #00C;
+      }
+      img {
+        max-width: 700px;
+        max-height: 600px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .footnote {
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
+        font-style: italic;
+        font-size: .8em;
+      }
+      .square {
+        border: 1px dotted #00C;
+        display: block;
+        float: left;
+        height: 33%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        width: 49%;
+      }
+      .bigsquare {
+        border: 1px dotted #00C;
+        display: block;
+        clear: both;
+        height: 33%;
+        width: 98%;
+      }
+      .square h3, .bigsquare h3 {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      .square ul, .bigsquare ul {
+        margin: 0 1em;
+        padding: 0 0 0 1em;
+        list-style-type: none;
+        text-indent: -1em;
+      }
+      .bigsquare ul {
+        column-count: 2;
+        column-gap: 2em;
+      }
+      .box {
+        display: block;
+        float: left;
+        font-size: 2em;
+        font-weight: bold;
+        padding: 1em 0;
+        width: 50%;
+      }
+      .bigbox {
+        display: block;
+        float: left;
+        font-size: 2em;
+        font-weight: bold;
+        padding: 1em 0;
+        width: 100%;
+      }
+      .smallbox {
+        display: block;
+        float: left;
+        font-size: 1.5em;
+        margin: 0;
+        padding: 1em;
+        width: 35%;
+      }
+      .minibox {
+        display: block;
+        float: left;
+        font-size: 2em;
+        font-weight: bold;
+        padding: 1em 0;
+        width: 25%;
+      }
+      .left-column {
+        color: #777;
+        width: 25%;
+        height: 92%;
+        float: left;
+      }
+      .left-column h2 {
+        color: #aaa;
+      }
+      .left-column h2:first-of-type {
+        color: #00C;
+      }
+      .left-column h3 {
+        color: #aaa;
+      }
+      .left-column h3:last-of-type {
+        color: #00C;
+      }
+      .left-column ul {
+        color: #000;
+      }
+      .right-column {
+        width: 70%;
+        float: right;
+        padding-top: 1em;
+      }
+      .right-column-focus {
+        width: 70%;
+        float: right;
+        padding-top: 1em;
+        font-weight: bold;
+        color: #00C;
+      }
+      .full-column {
+        width: 100%;
+        clear: both;
+        padding-top: 1em;
+      }
+      .strike {
+        text-decoration: line-through;
+      }
+      .style-free-list ul {
+        list-style-type: none;
+      }
+      .emberbackground {
+        background: linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,.75)), url('media/construction-tomster.png'), white;
+        background-repeat: repeat, no-repeat, repeat;
+        background-position: top left, bottom center, top left;
+      }
+      .toolsbackground {
+        background: linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,.75)), url('media/zoey.png'), url('media/netlify.png'), url('media/travis.png'), url('media/greenkeeper.png'), url('media/aws.png'), url('media/heroku.svg'), white;
+        background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+        background-position: top left, bottom center, top right, top left, bottom left, top center, bottom right, top left;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+      class: center, middle
+      # Web Development with the Microapplication Pattern
+
+      ### Jon Johnson
+      ![Jon's avatar](media/gravatar.jpeg)
+
+      Slides at: https://jrjohnson.github.io/talks/2017-08-microapps-uccsc.html
+
+      <i class="fa fa-github"></i>jrjohnson <br />
+      <i class="fa fa-slack"></i>jrjohnson-ucsf <br />
+      <i class="fa fa-twitter"></i>iam_jrjohnson <br />
+
+
+      ---
+      # Who am I?
+
+      - Full stack web developer (PHP, Javascript)
+      - Technical lead for the Ilios Project open source curriculum management system
+      for health science education. (http://iliosproject.org)
+
+      .center[![github contributions](media/contributions.png)]
+
+      --
+      ### https://tinyurl.com/are-work
+
+      ---
+
+      # What is Ilios
+
+      - Curriculum management system for health science education. (http://iliosproject.org)
+      - Deployed at dozens of medical schools on 5 continents
+      - A product of UCSF School of Medicine and the MedBiquitous Consortium
+
+      .center[![map of international Ilios schools](media/ilios-map.png)]
+
+      ???
+      - Open API
+        - We interconnect with a lot of other systems on campuses and with organizations
+        like the American Association of Medical Colleges so having an open
+        and well documented API allows data to flow
+      - Community
+        - We provide Ilios for Free to other medical schools around the world
+
+      ---
+      class: center, middle
+      # What is a microapp?
+
+      --
+      ## That map was one:
+
+      .center[![map of international Ilios schools](media/ilios-map.png)]
+
+      ---
+      class: center, middle
+      # OK, umm... so what?
+
+      ---
+      class: center
+      # Profound and Unstoppable Power of Yes
+
+      .center[![UCSF profound and unstoppable power of yes](media/power-of-yes.jpg)]
+
+      ???
+      - UCSF has been going around telling people we say yes!
+      - As developers we want to say yes
+      - As people we want to help other people
+      - The developer life cycle has taught us to be cautious.
+
+      ---
+      class: center
+      # Developer Life Cycle
+      .center[![developer life cycle](media/devlife2.png)]
+
+      ---
+      class: center
+      # Developer Life Cycle
+      .center[![developer life cycle](media/devlife3.png)]
+
+      ---
+      class: center
+      # Developer Life Cycle
+      .center[![developer life cycle](media/devlife4.png)]
+
+      ---
+      class: center
+      # Developer Life Cycle
+      .center[![developer life cycle](media/devlife5.png)]
+
+      ---
+      class: center
+      # Developer Life Cycle
+      .center[![developer life cycle](media/devlife6.png)]
+
+      ---
+
+      class: center
+      # Developer Life Cycle
+      .center[![technical debt circle](media/debt-circle.png)]
+
+      ---
+
+      class: center
+      # Developer Life Cycle
+      .center[![build circle](media/build-circle.png)]
+
+      ---
+      class: center
+      # Developer Life Cycle
+      .center[![developer life cycle](media/devlife6.png)]
+
+      ---
+      # Our Challenge
+      .box[Greater Complexity]
+
+      ---
+      # Our Challenge
+      .box[Greater Complexity]
+      .box[More People Engaged]
+
+      ---
+      # Our Challenge
+      .box[Greater Complexity]
+      .box[More People Engaged]
+      .box[More Demands for Service]
+
+      ---
+      # Our Challenge
+      .box[Greater Complexity]
+      .box[More People Engaged]
+      .box[More Demands for Service]
+      .box[Higher Expectations]
+
+      ???
+      If google can do it, why cant you?
+
+      ---
+
+      # Why are we stuck in this loop?
+
+      .left-column[
+        ## Proof of Concept
+      ]
+
+      .right-column-focus[
+         It isn't possible nor should it be necessary for everyone to understand
+         the difference between proof of concept code and production code.
+      ]
+
+      ???
+      - The people who think this aren't dumb.
+      - Our first pass has to be very nearly production ready.
+
+      ---
+      # Why are we stuck in this loop?
+
+      .left-column[
+        ## MVP
+        ## Proof of Concept
+      ]
+
+      .right-column-focus[
+        Get our ideas in front of people immediately
+      ]
+
+      ???
+      ## Minimum Viable Product
+
+      ---
+      # Why are we stuck in this loop?
+
+      .left-column[
+        ## RAT
+        ## MVP
+        ## Proof of Concept
+      ]
+
+      .right-column-focus[
+        Before we invest too heavily in any one idea we must find and test our riskiest assumptions.
+      ]
+
+      ???
+      ## Riskiest Assumption Test
+
+      ---
+      class: center
+      # How can we get off this ride?
+
+      ![finding nemo now what](media/now-what.gif)
+
+      ---
+      class: center
+      # Microapps! That's How!
+
+      ![Emeril saying bam](media/bam.gif)
+
+      ---
+      class: center, middle
+      # Do you mean Microservices?
+
+      ---
+      .strike[
+        # Microservices?
+      ]
+      # Microapps
+
+      - Take advantage of existing data through APIs
+      - Single Responsibility Principle
+      - Throw away things that don't work
+      - Low cost of enhancement
+      - Freedom to choose different technologies
+
+      ---
+      class: center
+      # What makes an app micro?
+
+      ![Researchers with microscopes in Laboratory of Experimental Oncology](media/microscope.jpg)
+
+      ???
+      Credit: https://calisphere.org/item/3fe65b42-122e-48de-8e4b-bc8dcf531216/
+      ---
+      class: center, middle
+      # Infrastructure code
+
+
+      ???
+      - Taking us on a little detour to talk about Infrastructure Code
+      - Can't understand microapps without it.
+      ---
+
+      .left-column[
+        ## Infrastructure code
+        ## Build System
+      ]
+      .right-column[
+        ![compile transpile preprocess transform bundle minifi fingerprint sourcemaps tree shaking autoreload](media/build-pipeline.png)
+      ]
+
+      ---
+
+      .left-column[
+        ## Infrastructure code
+        ## Request Handling
+      ]
+      .right-column[
+        ![flow chart of simple user flow request](media/simple-request-handling.png)
+      ]
+      ---
+
+      .left-column[
+        ## Infrastructure code
+        ## So Much More
+      ]
+      .right-column[
+        ![package lint build test deploy translation ci accessibility](media/other-tasks.png)
+      ]
+
+      ---
+      # Cognitive Load for EVERY Application
+
+      .square[
+      ### Getting Started
+      - Project Structure
+      - Build Pipeline
+      - Dependency Loading
+      - Test runner / testing pattern
+      - Feedback Loop
+      ]
+
+      --
+
+      .square[
+      ### Active Development
+      - Request Routing
+      - Assets
+      - Error / Loading States
+      - #### Solve The Actual Problem
+      ]
+
+      --
+
+      .bigsquare[
+      ### Production / Maintenance Mode
+      - Deployment
+      - QA / Feature Testing
+      - Continuous Integration
+      - Stay up to date
+      - Apply Security fix
+      - Support new Browsers
+      - Improve Performance
+      - Why is this even here?
+      - Who wrote this shit?
+      - Damn I wrote this shit. 2015 me was an idiot!
+      - #### Add New Features
+      ]
+
+      ---
+
+      class: center
+      # Large Application
+
+      ![large application graph](media/large-app.jpg)
+
+      ---
+
+      class: center
+      # Medium Application
+
+      ![medium application graph](media/medium-app.jpg)
+
+      ---
+
+      class: center
+      # Microapp
+
+      ![micro application graph](media/micro-app.jpg)
+
+      ---
+
+      class: center
+      # Microapps
+
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+      .minibox[![small microapp graph](media/micro-app-mini.jpg)]
+
+      ---
+      class: style-free-list
+      # @todo Microapps
+      - <input type='checkbox'> Cure NIHS
+      - <input type='checkbox'> Buy the bikeshed
+      - <input type='checkbox'> Focus on the solution
+
+      ---
+      class: center, middle
+      # Cure **N**ot **I**nvented **H**ere **S**yndrome
+
+      --
+      ## The Best Code is No Code At All
+      ???
+      - As a software developer, you are your own worst enemy. The sooner you realize that, the better off you'll be. ~ Jeff Atwood
+      - No user has ever thanked my for our top notch build pipeline ~ Jon Johnson
+      --
+
+      ## Don't Fetishize Simplicity
+      ???
+      - Simple === Small === Fast === Good
+      - Complex === Big === Slow === Bad ~ Tom Dale
+      --
+
+      .footnote[.style-free-list[
+        - https://blog.codinghorror.com/the-best-code-is-no-code-at-all/
+        - https://tomdale.net/2017/04/making-the-jump/
+      ]]
+
+
+      ---
+      class: center, middle
+      # Buy the Bikeshed
+
+      ---
+      class: center
+      # What You Think You Need
+
+      ![blank map of SF](media/wood-bike-shed.jpg)
+
+      .footnote[.style-free-list[
+        - http://whatshed.co.uk/7-x-3-waltons-tongue-and-groove-apex-wooden-bike-shed/
+      ]]
+
+      ---
+      class: center
+      # What a Library Provides
+
+      ![Twitter SF's Bike Room](media/twitter-bike-room.jpg)
+
+      .footnote[.style-free-list[
+        - http://www.sfbike.org/news/dero-bicycle-parking-solutions/
+      ]]
+
+      ---
+      class: center
+      # What You End up Building
+
+      ![Bike locked to fence with no bike parking sign](media/bike-parking-fail.jpg)
+
+      .footnote[.style-free-list[
+        - https://flic.kr/p/8qqnzn
+      ]]
+
+      ---
+      class: center
+      # What You Actually Need
+
+      ![Bikes on SF Muni Bus](media/muni-bike-rack.jpg)
+
+      .footnote[.style-free-list[
+        - https://www.sfmta.com/about-sfmta/blog/bigger-bike-racks-hilly-muni-routes
+      ]]
+
+      ???
+      - scary place for developers have to throw out all of that really fancy
+      code that is tied very closely to my identity as a human
+      - this isn't a bad thing (you should love your code), just try not to get into the situation too often
+
+      ---
+
+      class: center, middle
+      # Buy the Bikeshed
+
+      ### Build What You Have the Expertise to Maintain
+
+      --
+      ### Build What You Have the FTE to Fix **CONSTANTLY** .strike[Expertise Maintain]
+
+      ---
+      class: center, middle
+      # Focus on the Solution
+
+      ## If the goal is to build a fast airplane why are you manufacturing bricks?
+
+      ---
+
+      class: center, middle
+      # Convinced?
+      ---
+
+      class: center, middle
+      # Ready to Give Microapps a Try?
+      ---
+      class: center, middle
+
+      ![ember cli logo](media/ember-cli.png)
+
+      ![react logo](media/react-logo.png)
+
+      ![angular cli logo](media/angular-cli.png)
+
+      ---
+
+      class: center, middle
+      # Ember (An SDK for the Web)
+
+      ## https://emberjs.com/learn/
+
+      ![ember zoey mascot](media/zoey.png)
+
+      ???
+      - Stability without stagnation
+      - Semver Guarantee
+      - Ilios 2+ years and still up to date
+      ---
+      # Simple Commands
+
+      ![ember new in terminal animated](media/screen-captures/ember-new.gif)
+
+      ---
+      # Simple Commands
+      ## `ember new <app-name>`
+
+      - Create Structure
+      - Setup Dependencies
+      - Ready to start writing code
+      - Even creates some basic tests
+
+      ???
+      ## Able to save so much cognitive load and just get started making important choices
+
+      ---
+      # Simple Commands
+
+      ![ember serve in terminal animated](media/screen-captures/ember-serve.gif)
+
+      ---
+      # Simple Commands
+      ## `ember serve`
+
+      ### Run Yo' Stuff
+
+      .left-column[
+        - Javascript
+          - Transpile
+          - Combine + Minify
+
+
+        - CSS
+          - Compile
+          - Prefix
+          - Combine + Minify
+      ]
+      .right-column[
+        - Serve
+          - Local dev server
+          - Auto-reload server
+          - Watch For Changes
+          - Proxy Connections
+      ]
+
+      ???
+      ## Able to save so much cognitive load and just get started making important choices
+
+      ---
+      # Simple Commands
+      ### Test Yo' Stuff
+
+      ![ember test in terminal animated](media/screen-captures/ember-test.gif)
+
+      ???
+      ## Can do many things
+      - Build App
+      - Load test fixtures
+      - Start a browser session
+      - Keep track of failures
+
+      ---
+      class: center, middle
+      # Because we have standardized our platform we can standardize our tooling
+
+      ???
+      - Travis
+      - green keeper
+      - netlify
+      - heroku
+      - ember-cli makes on-boarding new team members super fast
+      - Standardizing makes it easy to farm out work because you know what you will get back.
+
+      ---
+      class: center, middle
+
+      # Some Examples
+
+      ---
+      # Data Visualization (Map of Ilios Schools)
+
+      ![ilios map](media/ilios-map.png)
+      ---
+
+      .left-column[
+        ### Ilios map
+        ### Plain Old Web
+      ]
+
+      .right-column[
+        ```html
+          <div id="map"></div>
+          <script>
+            var map;
+            function initMap() {
+              map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 37.7749, lng: -122.4194},
+                zoom: 8
+              });
+            }
+          </script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+          async defer></script>
+        ```
+
+        ![blank map of SF](media/maps/first.png)
+      ]
+
+      ---
+
+      .left-column[
+        ### Ilios map
+        ### Plain Old Web
+        ### Add Some Markers
+      ]
+
+      .right-column[
+        ```html
+        <div id="map"></div>
+        <script>
+          let map;
+          function initMap() {
+            let latLng = {lat: 37.7749, lng: -122.4194}
+            map = new google.maps.Map(document.getElementById('map'), {
+              center: latLng,
+              zoom: 8
+            });
+            let marker = new google.maps.Marker({
+              position: latLng,
+              map: map,
+              title: 'UCSF!'
+            });
+          }
+        </script>
+        <script src=
+        "https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=initMap"
+        async defer></script>
+        ```
+
+        ![blank map of SF](media/maps/second.png)
+      ]
+
+      ???
+      # Getting out of hand
+      - How do I figure out coordinates for each school
+      - What school do each latitude and longitude represent
+      - Keep having to press refresh
+      - ## Where do I store the API key?
+      ---
+      .left-column[
+        ### Ilios map
+        ### As an Ember Microapp
+      ]
+
+      .right-column[
+        ```bash
+        $ ember new map
+        $ cd map
+        $ ember generate component schools-map
+        $ ember add ember-g-map
+        $ ember serve
+        ```
+
+        ```handlebars
+        {{#g-map as |context|}}
+          {{#each (await codedLocations) as |obj|}}
+            {{g-map-marker context lat=obj.lat lng=obj.lng}}
+          {{/each}}
+        {{/g-map}}
+        ```
+      ]
+      ---
+      .left-column[
+        ### Ilios map
+        ### As an Ember Microapp
+      ]
+      ### Wait... what is `ember-g-map`?
+      [ember-g-map](https://emberobserver.com/addons/ember-g-map)
+
+      ???
+      - Addons provide functionality
+      - Addons are all built by ember-cli and they all follow the same conventions
+      - Lookup Crypto and take a look at the addons there
+      ---
+      .left-column[
+        ### Ilios map
+        ### As an Ember Microapp
+      ]
+
+      .right-column[
+        ```javascript
+        export default Component.extend({
+          locations: [
+            'SF,ca',
+          ],
+          codedLocations: computed('locations.[]', function(){
+            return new Promise(resolve => {
+              map(this.get('locations'), location => {
+                return this.getLatLongForAddress(location);
+              }).then(data => {
+                resolve(data);
+              });
+            });
+          }),
+          getLatLongForAddress(address){
+            return new Promise(resolve => {
+              let request = `${uri}/geocode/json?&key=${key}&address=${address}`;
+              $.getJSON(request, (response) => resolve({ response.results[0].geometry.location.lat,response.results[0].geometry.location.lng}));
+            });
+          },
+        });
+        ```
+
+        ![blank map of SF](media/maps/third.png)
+      ]
+
+      ???
+      # Same map
+        - Using city name instead of lat / long
+        - Lots of ember stuff
+          - promises
+          - computed properties
+          - template separation
+        - Ember cli stuff
+          - live reload
+          - ember server
+          - project structure
+          - linting
+        - Options to store the key
+      # Ember isn't your only choice for this - but it is a really good one
+      ---
+      .left-column[
+        ### Ilios map
+        ### As an Ember Microapp
+        ### Next steps
+      ]
+
+      .right-column[
+      ### Keep it
+      - Add Labels
+      - Different markers for Consortium members
+      - Data from external source
+
+      ### Throw it away?
+      ]
+
+      ---
+      # Data Visualization (Ilios Team)
+
+      ![chart showing forks of ember projects by ilios team members](media/ember-forks.png)
+
+      ???
+      # Built for this talk to make a point
+      ## If you don't have the ability to contribute fixes this probably isn't for you
+
+      ---
+      .left-column[
+        ### Team Ember Contributions
+        ### Route
+      ]
+
+      .right-column[
+      ```javascript
+      export default Route.extend({
+        async model(){
+          let users = [];
+          for (let i = 0; i < this.users.length; i++) {
+            const username = this.users[i];
+            const repositoryNames = await this.getRepositoriesForUser(username);
+            let user = Object.create({
+              username,
+              repositoryNames
+            });
+            users.push(user);
+          }
+
+          return users;
+        },
+      });
+
+      ```
+      ]
+
+      ---
+      .left-column[
+        ### Team Ember Contributions
+        ### Visualization
+      ]
+
+      .right-column[
+      ```javascript
+      export default Component.extend({
+        tagName: 'svg',
+        didReceiveAttrs() {
+          run.scheduleOnce('render', this, this.draw);
+        },
+        draw(){
+          const svg = select(this.element);
+          // set the ranges
+          const x = scaleBand().range([0, chartWidth]).padding(0.1);
+          const y = scaleLinear().range([chartHeight, 0]);
+
+          svg.append("g").attr("transform", "translate(" + 40 + "," + 20 + ")");
+
+          x.domain(dataOrArray.map(d => d.username));
+          y.domain([0, max(dataOrArray, d => d.repositoryNames.length)]);
+
+          // append the rectangles for the bar chart
+          svg.selectAll(".bar").data(dataOrArray)
+            .enter().append("rect")
+              .attr("class", "bar")
+              .attr("x", d => x(d.username))
+              .attr("width", x.bandwidth())
+              .attr("y", d => y(d.repositoryNames.length))
+              .attr("height", d => chartHeight - y(d.repositoryNames.length))
+              .attr('fill', d =>  color(d.username));
+
+          svg.append("g").attr("transform", "translate(0," + chartHeight + ")").call(axisBottom(x));
+          svg.append("g").call(axisLeft(y));
+        },
+      });
+
+      ```
+      ]
+
+      ---
+      ![chart showing forks of ember projects by ilios team members](media/ember-forks.png)
+
+      ## https://copy-writer-crab-43023.netlify.com/
+      ## https://github.com/jrjohnson/team-contributions
+      ---
+      .left-column[
+        ### Team Ember Contributions
+        ### Next steps
+      ]
+
+      .right-column[
+      ### Keep it
+      - Loading Indicator
+      - Handle Errors
+      - Authenticate User to get an API key
+      - Cache Results
+
+      ### Throw it away?
+      ]
+
+      ---
+      # An accidental example
+
+      ![chart showing forks of drupal projects by ilios team members](media/drupal-forks.png)
+
+      ---
+      # Demoing a Feature: Ilios Todo
+
+      https://ilios-todo.herokuapp.com/
+
+      ![screen shot of ilios todo app](media/todo.png)
+
+      ???
+      - Highly requested feature, but not clear understanding of the problem
+      - Threw together on a plane as a demo of what open APIs can mean
+      - Has allowed us to have a discussion about what this feature actually is
+
+
+      ---
+      # Can Lead to a solution
+
+      ![screen shot of ilios week at a glance](media/ilios-week-glance.png)
+
+      ---
+      class: center, middle
+
+      # Build without fear again
+
+      ???
+      ## When your friend or your spouse has an idea you might actually be able to help
+
+      ---
+      # Seating Charts
+
+      ![screen shot of seating chart from school loop](media/school-loop-seats.png)
+
+      ???
+      - Wife's high school is moving to Canvas
+      - Canvas doesn't create seating charts the way Jen would like
+      - Can we build a seating chart application?
+
+      ---
+      .left-column[
+      # Sentar
+      # [sentar.org](https://sentar.org/)
+      - Realtime Database (firebase)
+      - Drag and Drop
+      - Social Auth
+      - [Open Source](https://github.com/jrjohnson/sentar)
+      ]
+      .right-column[
+      ![screen shot of sentar.org](media/sentar.png)
+      ]
+
+      ???
+      - Production ready (https, caching, CD Pipeline)
+      - Just enough flow to see if we're solving the problem
+
+
+      ---
+      class:center
+      ![hamster resting on their wheel](media/purposeofthewheel.jpg)
+
+      ???
+      - The less code you are responsible for the more problems you can solve
+
+      Credit: www.veryfunnypics.eu
+      ---
+
+      class: center, middle
+
+      ## Discussion / Questions?
+      ![Jon's avatar](media/gravatar.jpeg)
+
+      Slides at: https://jrjohnson.github.io/talks/2017-08-microapps-uccsc.html
+
+      <i class="fa fa-github"></i>jrjohnson <br />
+      <i class="fa fa-slack"></i>jrjohnson-ucsf <br />
+      <i class="fa fa-twitter"></i>iam_jrjohnson <br />
+
+      ???
+
+      # Thanks
+      - to UCCSC for the opportunity to speak
+      - to the UCSF library for giving me the time to do this and other open source work
+      - and the Ilios team who is always supportive when I start to panic about getting a talk finished.
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create({
+      navigation: {
+        scroll: false,
+        touch: true,
+        click: false
+      },
+      slideNumberFormat: '',
+      countIncrementalSlides: false,
+      ratio: '16x9',
+    });
+    </script>
+  </body>
+</html>
